@@ -2,22 +2,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- 음성 인식 버튼 -->
-    <Button
-        android:id="@+id/speechButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start Speech to Text"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
-
     <!-- 설정 버튼 -->
     <Button
         android:id="@+id/settingsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Settings"
-        android:layout_below="@id/speechButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp" />
+
+    <!-- 음성 인식 버튼 -->
+    <Button
+        android:id="@+id/speechButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Speech to Text"
+        android:layout_centerInParent="true" />
 </RelativeLayout>
