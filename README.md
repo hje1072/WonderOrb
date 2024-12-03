@@ -18,12 +18,7 @@ WonderOrb는 사용자의 질문에 간단하고 유머러스한 답변을 제�
   생성된 답변을 음성으로 출력하여 생동감을 더합니다.  
 
 ## 적용된 API  
-- **Speech Recognition**  
-  음성 인식을 위해 [gotev/android-speech](https://github.com/gotev/android-speech) 라이브러리를 사용하고 있습니다.  
-  - Gradle Dependency:  
-    ```gradle
-    implementation("net.gotev:speech:1.6.2")
-    ```
+
 
 ## 기대 효과  
 - **킬링타임 및 아이스브레이킹**  
