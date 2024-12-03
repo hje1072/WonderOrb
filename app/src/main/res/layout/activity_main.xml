@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/notification_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_purple"
+    >
+
+    <!-- 음성 인식 결과를 표시할 TextView -->
+    <TextView
+        android:id="@+id/textViewSpeechResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="16dp"
+        android:text="여기에 음성 인식 결과가 표시됩니다."
+        android:textSize="18sp"
+        android:textAlignment="center" />
+
+    <!-- 음성 인식을 위한 투명 버튼 -->
+    <Button
+        android:id="@+id/speechButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent" />
+
+    <!-- 화면 하단에 위치할 버튼 -->
+    <Button
+        android:id="@+id/visibleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="32dp"
+        android:text="다른 버튼" />
+</FrameLayout>
