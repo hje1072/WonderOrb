@@ -6,18 +6,24 @@
     android:background="@drawable/background_purple"
     >
 
-    <!-- 음성 인식 결과를 표시할 TextView -->
+
+
+    <!-- 음성 인식을 위한 투명 버튼 -->
     <TextView
         android:id="@+id/textViewSpeechResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:alpha="0"
+        android:background="@drawable/rounded_background"
         android:padding="16dp"
         android:text="여기에 음성 인식 결과가 표시됩니다."
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
         android:textSize="18sp"
-        android:textAlignment="center" />
 
-    <!-- 음성 인식을 위한 투명 버튼 -->
+        />
+
     <Button
         android:id="@+id/speechButton"
         android:layout_width="match_parent"

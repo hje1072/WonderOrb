@@ -1,13 +1,20 @@
 package com.example.wonderorb;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.speech.RecognizerIntent;
 import android.speech.RecognitionListener;
 import android.speech.SpeechRecognizer;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private Button speechButton;
     private Button visibleButton;
     private SpeechRecognizer speechRecognizer;
+    private FrameLayout notification_background;
 
-    private  asdf;
 
     private boolean isText1Mode = true; // true: TEXT1 모드, false: TEXT2 모드
 
@@ -35,61 +42,91 @@ public class MainActivity extends AppCompatActivity {
         textViewSpeechResult = findViewById(R.id.textViewSpeechResult);
         speechButton = findViewById(R.id.speechButton);
         visibleButton = findViewById(R.id.visibleButton);
+        notification_background = findViewById(R.id.notification_background);
+
 
         // SpeechRecognizer 초기화
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         speechRecognizer.setRecognitionListener(new RecognitionListener() {
             @Override
             public void onReadyForSpeech(Bundle params) {
+                //초기상태
                 textViewSpeechResult.setText("음성을 입력하세요...");
             }
 
             @Override
             public void onBeginningOfSpeech() {
+                //입력받는 상태
                 textViewSpeechResult.setText("음성 입력 중...");
             }
 
             @Override
             public void onRmsChanged(float rmsdB) {
-                // 음성 레벨 변경 (선택적)
+                // 음성 레벨 변경 (선택적) 사용X
             }
 
             @Override
             public void onBufferReceived(byte[] buffer) {
-                // 음성 데이터 수신 (선택적)
+                // 음성 데이터 수신 (선택적) 사용X
             }
 
             @Override
             public void onEndOfSpeech() {
+                //입력완료상태
                 textViewSpeechResult.setText("입력이 종료되었습니다.");
             }
 
             @Override
             public void onError(int error) {
                 Toast.makeText(MainActivity.this, "에러 발생: " + error, Toast.LENGTH_SHORT).show();
+
+                // 에러가 7 일 경우 음성인식이 안들어왔을 경우임. 이는 자주 발생할 수 있는 에러이므로 처리 자세히할것.
             }
 
             @Override
             public void onResults(Bundle results) {
+                //결과를 출력하는 곳.
+
                 ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                 if (matches != null && !matches.isEmpty()) {
                     String prefix = isText1Mode ? "TEXT1: " : "TEXT2: "; // 모드에 따라 prefix 설정
-                    textViewSpeechResult.setText(prefix + matches.get(0)); // 결과 표시
+
+
+                    //질문을 받고 대답하는 식으로 변경.
+                    if (isServiceBound) { // Service에 연결된 상태에서만 처리
+                        String question = matches.get(0);
+
+                        if (question.isEmpty()) {
+
+                        } else {
+                            // Service를 통해 답변을 생성
+                            String answer = answerService.generateAnswer(question);
+                            textViewSpeechResult.setText(answer);
+                            runAnimation(textViewSpeechResult); //잠깐 보여주기.
+                        }
+                    } else {
+                        textViewSpeechResult.setText("Service에 연결되지 않았습니다.");
+                    }
+
+
+
+                    //textViewSpeechResult.setText(prefix + matches.get(0)); // 결과 표시
                 }
             }
 
             @Override
             public void onPartialResults(Bundle partialResults) {
-                // 실시간 결과 표시 (선택적)
+                // 실시간 결과 표시 (선택적) 사용X
             }
 
             @Override
             public void onEvent(int eventType, Bundle params) {
-                // 기타 이벤트 처리 (선택적)
+                // 기타 이벤트 처리 (선택적) 사용X
             }
         });
 
-        // 투명 버튼의 터치 이벤트 처리
+
+        /* 투명 버튼의 터치 이벤트 처리 */
         speechButton.setOnTouchListener((View v, MotionEvent event) -> {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
@@ -102,12 +139,21 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
+
         // visibleButton 클릭 이벤트 처리
         visibleButton.setOnClickListener(v -> {
             isText1Mode = !isText1Mode; // 모드 전환
+
+            //배경도 전환
+            int background = isText1Mode ? R.drawable.background_purple :  R.drawable.background_blue;
+            notification_background.setBackgroundResource(background);
+
             String modeMessage = isText1Mode ? "TEXT1 모드로 전환되었습니다." : "TEXT2 모드로 전환되었습니다.";
             Toast.makeText(this, modeMessage, Toast.LENGTH_SHORT).show();
         });
+
+
+
     }
 
     private void startSpeechRecognition() {
@@ -129,6 +175,67 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         if (speechRecognizer != null) {
             speechRecognizer.destroy(); // 메모리 초기화
+        }
+    }
+
+
+    //결과 버튼의 애니메이션 이벤트처리.
+    private void runAnimation(TextView textView) {
+        // 불투명해지는 애니메이션 (Alpha: 0 -> 1)
+        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(textView, "alpha", 0f, 1f);
+        fadeIn.setDuration(1000); // 1초 동안 불투명해짐
+
+        // 불투명 상태 유지 (Alpha: 1 -> 1)
+        ObjectAnimator hold = ObjectAnimator.ofFloat(textView, "alpha", 1f, 1f);
+        hold.setDuration(1500); // 1.5초 동안 유지
+
+        // 투명해지는 애니메이션 (Alpha: 1 -> 0)
+        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(textView, "alpha", 1f, 0f);
+        fadeOut.setDuration(500); // 0.5초 동안 투명해짐
+
+        // AnimatorSet으로 애니메이션 조합
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playSequentially(fadeIn, hold, fadeOut);
+        animatorSet.start();
+    }
+
+
+
+    //서비스를 관리하는 부분. 질의응답 서비스.
+
+    private AnswerService answerService; // AnswerService 객체
+    private boolean isServiceBound = false; // Service 연결 상태
+
+    // Service 연결 콜백
+    private final ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            AnswerService.AnswerBinder binder = (AnswerService.AnswerBinder) service;
+            answerService = binder.getService(); // Service 객체 가져오기
+            isServiceBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            isServiceBound = false; // 연결 끊김 상태
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Service 바인딩
+        Intent intent = new Intent(this, AnswerService.class);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Service 언바인딩
+        if (isServiceBound) {
+            unbindService(serviceConnection);
+            isServiceBound = false;
         }
     }
 }
