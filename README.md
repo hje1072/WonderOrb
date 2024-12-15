@@ -1,16 +1,21 @@
 # WonderOrb
 
-### 1. API 키 설정
-1. 프로젝트의 `app/src/main/assets/` 디렉터리에 `apikey.properties` 파일을 생성합니다.
-2. 아래와 같은 형식으로 OpenAI API 키를 입력합니다:
+## 들어가기 앞서
+###  API 키 설정
+1. 프로젝트의 `app/src/main/assets/` 디렉터리에 `apikey_example.properties` 파일을 찾습니다.
+2. `apikey_example.properties` 파일을 복사하여, `apikey.properties`로 이름을 변경합니다.
+3. `apikey.properties` 파일에 OpenAI API 키를 입력:
    ```properties
-   API_KEY=sk-XXXXXXXXXXXXXXXX
-   
+   API_KEY=YOUR_ACTUAL_API_KEY
+이후 저장해주면 됩니다.
+
+##
 **현재 구현된 기능**  
 - 음성 녹음 및 텍스트로 변환  
 - 녹음된 질문을 바탕으로 답변을 해줌.
+
    
-## 프로젝트 개요  
+# 프로젝트 개요  
 WonderOrb는 사용자의 질문에 간단하고 유머러스한 답변을 제공하는 앱입니다.  
 스폰지밥의 "마법의 소라고동"과 같이, 사용자에게 소소한 재미와 유쾌한 경험을 선사하는 것을 목표로 합니다.
 
