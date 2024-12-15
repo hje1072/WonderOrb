@@ -43,11 +43,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         String apiKey = ApiKeyProvider.getApiKey(this);
-        if (apiKey.isEmpty()) {
-            Toast.makeText(this, "API 키가 설정되지 않았습니다. assets/apikey.properties 파일을 확인하세요.", Toast.LENGTH_LONG).show();
+        if (apiKey.isEmpty() || apiKey.equals("sk-YOUR_ACTUAL_API_KEY")) {
+            Toast.makeText(this, "올바른 API 키를 설정하세요.", Toast.LENGTH_LONG).show();
         } else {
             RetrofitClient.setApiKey(apiKey);
         }
+
 
 
         // UI 요소 초기화
