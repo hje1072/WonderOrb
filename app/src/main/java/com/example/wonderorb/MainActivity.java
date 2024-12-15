@@ -20,6 +20,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.chat_api.ApiKeyProvider;
+import com.example.chat_api.ChatService;
+import com.example.chat_api.RetrofitClient;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,6 +41,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        String apiKey = ApiKeyProvider.getApiKey(this);
+        if (apiKey.isEmpty()) {
+            Toast.makeText(this, "API 키가 설정되지 않았습니다. assets/apikey.properties 파일을 확인하세요.", Toast.LENGTH_LONG).show();
+        } else {
+            RetrofitClient.setApiKey(apiKey);
+        }
+
 
         // UI 요소 초기화
         textViewSpeechResult = findViewById(R.id.textViewSpeechResult);
@@ -85,34 +97,34 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResults(Bundle results) {
-                //결과를 출력하는 곳.
-
                 ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                 if (matches != null && !matches.isEmpty()) {
-                    String prefix = isText1Mode ? "TEXT1: " : "TEXT2: "; // 모드에 따라 prefix 설정
+                    String question = matches.get(0).trim(); // 인식된 첫 번째 문장을 질문으로 사용
 
+                    if (isServiceBound) {
+                        if (!question.isEmpty()) {
+                            // AnswerService를 통해 AI 기반 답변 받기
+                            answerService.generateAnswer(question, new ChatService.ChatCallback() {
+                                @Override
+                                public void onSuccess(String answer) {
+                                    textViewSpeechResult.setText(answer); // 답변 표시
+                                    runAnimation(textViewSpeechResult);  // 답변 표시 후 애니메이션 실행
+                                }
 
-                    //질문을 받고 대답하는 식으로 변경.
-                    if (isServiceBound) { // Service에 연결된 상태에서만 처리
-                        String question = matches.get(0);
-
-                        if (question.isEmpty()) {
-
+                                @Override
+                                public void onError(String error) {
+                                    textViewSpeechResult.setText(error); // 오류 메시지 표시
+                                }
+                            });
                         } else {
-                            // Service를 통해 답변을 생성
-                            String answer = answerService.generateAnswer(question);
-                            textViewSpeechResult.setText(answer);
-                            runAnimation(textViewSpeechResult); //잠깐 보여주기.
+                            textViewSpeechResult.setText("질문이 비어 있습니다.");
                         }
                     } else {
-                        textViewSpeechResult.setText("Service에 연결되지 않았습니다.");
+                        textViewSpeechResult.setText("서비스에 연결되지 않았습니다.");
                     }
-
-
-
-                    //textViewSpeechResult.setText(prefix + matches.get(0)); // 결과 표시
                 }
             }
+
 
             @Override
             public void onPartialResults(Bundle partialResults) {
