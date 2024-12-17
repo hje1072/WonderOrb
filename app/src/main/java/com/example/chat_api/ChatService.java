@@ -35,8 +35,16 @@ public class ChatService extends Service {
                 "gpt-3.5-turbo",
                 Arrays.asList(
                         //컨셉부여하기.
-                        new ApiRequest.Message("system", "너는 아주 간단한 답변만 해주는 AI야. 모든 답변은 한 문장. 그리고 10글자 이하로 답변해줘. 너무 복잡한 질문이라면 대충 얼버무려도 상관없어."),
-                        new ApiRequest.Message("system", "반말만 할것."),
+
+                        new ApiRequest.Message(
+                                "system",
+                                "너는 아주 간단한 답변만 해주는 AI야. "
+                                        + "모든 답변은 반드시 한 문장, 10글자 이하로 답변. "
+                                        + "복잡한 질문이면 대충 얼버무려도 상관없어. "
+                                        + "반말만 사용할 것. "
+                                        + "싸가지 없어 보여도 괜찮음. "
+                                        + "특수기호는 다 괜찮지만 '!'는 절대 쓰지 말기."
+                        ),
                         new ApiRequest.Message("user", question)
                 )
         );

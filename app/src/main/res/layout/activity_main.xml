@@ -7,7 +7,6 @@
     >
 
 
-
     <!-- 음성 인식을 위한 투명 버튼 -->
     <TextView
         android:id="@+id/textViewSpeechResult"
@@ -31,11 +30,24 @@
         android:background="@android:color/transparent" />
 
     <!-- 화면 하단에 위치할 버튼 -->
-    <Button
+    <ImageButton
         android:id="@+id/visibleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginBottom="32dp"
+        android:src="@drawable/img_button"
+        android:background="@null"
         android:text="다른 버튼" />
+
+
+
+    <!-- 애니메이션 화면 -->
+    <FrameLayout
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:background="#000000"
+        android:visibility="visible" />
 </FrameLayout>

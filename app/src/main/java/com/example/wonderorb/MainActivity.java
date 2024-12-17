@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,9 +29,10 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    private FrameLayout overlay;
     private TextView textViewSpeechResult;
     private Button speechButton;
-    private Button visibleButton;
+    private ImageButton visibleButton;
     private SpeechRecognizer speechRecognizer;
     private FrameLayout notification_background;
 
@@ -52,11 +54,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         // UI 요소 초기화
+        overlay = findViewById(R.id.overlay);
         textViewSpeechResult = findViewById(R.id.textViewSpeechResult);
         speechButton = findViewById(R.id.speechButton);
         visibleButton = findViewById(R.id.visibleButton);
         notification_background = findViewById(R.id.notification_background);
-
 
         // SpeechRecognizer 초기화
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
@@ -100,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResults(Bundle results) {
                 ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                 if (matches != null && !matches.isEmpty()) {
+
                     String question = matches.get(0).trim(); // 인식된 첫 번째 문장을 질문으로 사용
 
                     if (isServiceBound) {
@@ -159,6 +162,8 @@ public class MainActivity extends AppCompatActivity {
 
             //배경도 전환
             int background = isText1Mode ? R.drawable.background_purple :  R.drawable.background_blue;
+
+            runAnimation(overlay);
             notification_background.setBackgroundResource(background);
 
             String modeMessage = isText1Mode ? "TEXT1 모드로 전환되었습니다." : "TEXT2 모드로 전환되었습니다.";
@@ -210,6 +215,21 @@ public class MainActivity extends AppCompatActivity {
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playSequentially(fadeIn, hold, fadeOut);
         animatorSet.start();
+    }
+
+
+    //화면전환 이벤트
+    private void runAnimation(View View) {
+
+        // 투명해지는 애니메이션 (Alpha: 1 -> 0)
+        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(View, "alpha", 1f, 0f);
+        fadeOut.setDuration(500); // 0.5초 동안 투명해짐
+
+        // AnimatorSet으로 애니메이션 조합
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playSequentially(fadeOut);
+        animatorSet.start();
+
     }
 
 
