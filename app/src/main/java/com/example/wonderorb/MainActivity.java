@@ -66,13 +66,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onReadyForSpeech(Bundle params) {
                 //초기상태
-                textViewSpeechResult.setText("음성을 입력하세요...");
             }
 
             @Override
             public void onBeginningOfSpeech() {
                 //입력받는 상태
-                textViewSpeechResult.setText("음성 입력 중...");
+
             }
 
             @Override
@@ -88,14 +87,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onEndOfSpeech() {
                 //입력완료상태
-                textViewSpeechResult.setText("입력이 종료되었습니다.");
+
             }
 
             @Override
             public void onError(int error) {
-                Toast.makeText(MainActivity.this, "에러 발생: " + error, Toast.LENGTH_SHORT).show();
+                if (error == 7) { //음성입력이 안들어왔을 때.
+                    Toast.makeText(MainActivity.this, "너의 질문이 들리지 않는구나.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "에러 발생: " + error, Toast.LENGTH_SHORT).show();
+                }
 
-                // 에러가 7 일 경우 음성인식이 안들어왔을 경우임. 이는 자주 발생할 수 있는 에러이므로 처리 자세히할것.
             }
 
             @Override
@@ -121,10 +124,10 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             });
                         } else {
-                            textViewSpeechResult.setText("질문이 비어 있습니다.");
+                            textViewSpeechResult.setText("질문이 비었구나.");
                         }
                     } else {
-                        textViewSpeechResult.setText("서비스에 연결되지 않았습니다.");
+                        textViewSpeechResult.setText("서비스에 연결되지 않았군.");
                     }
                 }
             }
@@ -166,8 +169,6 @@ public class MainActivity extends AppCompatActivity {
             runAnimation(overlay);
             notification_background.setBackgroundResource(background);
 
-            String modeMessage = isText1Mode ? "TEXT1 모드로 전환되었습니다." : "TEXT2 모드로 전환되었습니다.";
-            Toast.makeText(this, modeMessage, Toast.LENGTH_SHORT).show();
         });
 
 
@@ -184,7 +185,8 @@ public class MainActivity extends AppCompatActivity {
     private void stopSpeechRecognition() {
         if (speechRecognizer != null) {
             speechRecognizer.stopListening();
-            Toast.makeText(this, "음성 입력을 종료했습니다.", Toast.LENGTH_SHORT).show();
+            if (isText1Mode) Toast.makeText(this, "기다리거라.", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(this, "⏳⏳⏳", Toast.LENGTH_SHORT).show();
         }
     }
 
