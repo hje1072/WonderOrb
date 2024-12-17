@@ -98,7 +98,11 @@ Wonder Orb는 기존의 **마법의 소라고동**처럼 신기한 답변을 제
 ## 6. 시연 방법
 
 ### 기본 상태  
-- **Another Fortune** 버튼을 통해 모드 변경 가능  
+
+![스크린샷 2024-12-18 041304](https://github.com/user-attachments/assets/95be9e32-03c4-4877-88c3-fdfdc979e07e)
+![스크린샷 2024-12-18 041328](https://github.com/user-attachments/assets/e436be48-f757-4245-8911-318979976ba3)
+
+- **Another Fortune** 버튼을 통해 모드 변경 가능
 
 ### 질문 방법  
 1. 구슬을 꾹 누른 상태에서 음성 인식 모드로 진입  
@@ -109,11 +113,15 @@ Wonder Orb는 기존의 **마법의 소라고동**처럼 신기한 답변을 제
 ### 시연 예시  
 
 #### a. 보라색 수정구슬  
-**질문**: "저녁으로 뭐 먹을까?"  
-**답변**: (예시 화면 출력)  
+**질문**: "저녁으로 뭐 먹을까?"  ![스크린샷 2024-12-18 041653](https://github.com/user-attachments/assets/46b0b3ec-cdc0-49e9-99aa-b1ed0aad1c69)
+
+**답변**: (예시 화면 출력)  ![스크린샷 2024-12-18 041715](https://github.com/user-attachments/assets/fed8dc3e-0ad0-4862-9612-337abd86e9e6)
+
 
 #### b. 초록색 수정구슬  
-**질문**: "저녁으로 뭐 먹을까?"  
-**답변**: (예시 화면 출력)  
+**질문**: "저녁으로 뭐 먹을까?"  ![스크린샷 2024-12-18 041932](https://github.com/user-attachments/assets/e3d1b417-ff13-4c34-be59-0aaf849e9754)
+
+**답변**: (예시 화면 출력)  ![스크린샷 2024-12-18 041959](https://github.com/user-attachments/assets/d241853a-7348-4be6-b09c-d640d315d65d)
+
 
 ---
