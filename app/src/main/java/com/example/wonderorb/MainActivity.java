@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                     if (isServiceBound) {
                         if (!question.isEmpty()) {
                             // AnswerService를 통해 AI 기반 답변 받기
-                            answerService.generateAnswer(question, new ChatService.ChatCallback() {
+                            answerService.generateAnswer(question, isText1Mode ,new ChatService.ChatCallback() {
                                 @Override
                                 public void onSuccess(String answer) {
                                     textViewSpeechResult.setText(answer); // 답변 표시
