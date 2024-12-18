@@ -104,6 +104,13 @@ Wonder Orb는 기존의 **마법의 소라고동**처럼 신기한 답변을 제
 
 - **Another Fortune** 버튼을 통해 모드 변경 가능
 
+
+  
+https://github.com/user-attachments/assets/985226da-154e-49c9-9aa8-0be7ea1b0862
+
+- 화면전환 시연 영상
+
+
 ### 질문 방법  
 1. 구슬을 꾹 누른 상태에서 음성 인식 모드로 진입  
 2. 원하는 질문 후 손을 떼면 답변이 출력됨  
@@ -118,10 +125,35 @@ Wonder Orb는 기존의 **마법의 소라고동**처럼 신기한 답변을 제
 **답변**: (예시 화면 출력)  ![스크린샷 2024-12-18 041715](https://github.com/user-attachments/assets/fed8dc3e-0ad0-4862-9612-337abd86e9e6)
 
 
+
+https://github.com/user-attachments/assets/ed1074f0-b579-4389-bda9-7dc6c8196d53
+
+- 시연영상 1: 저녁뭐먹지?
+
+https://github.com/user-attachments/assets/d3d1356d-9702-4a8b-917c-6566a08a61a8
+
+- 시연영상 2 : 친구랑 몇시에 만나지?
+
+
+
 #### b. 초록색 수정구슬  
 **질문**: "저녁으로 뭐 먹을까?"  ![스크린샷 2024-12-18 041932](https://github.com/user-attachments/assets/e3d1b417-ff13-4c34-be59-0aaf849e9754)
 
 **답변**: (예시 화면 출력)  ![스크린샷 2024-12-18 041959](https://github.com/user-attachments/assets/d241853a-7348-4be6-b09c-d640d315d65d)
+
+
+
+
+https://github.com/user-attachments/assets/febdf2fe-dcc1-43eb-a52f-e5f603dcd928
+
+- 시연영상 1 : 저녁뭐먹지?
+
+
+
+https://github.com/user-attachments/assets/9450b360-26fc-4f1b-88fd-19fb1b7ff271
+
+-시연영상 2 : 친구랑 몇시에 만나지?
+
 
 
 ---
